@@ -1,0 +1,33 @@
+---
+$: paper01
+title: Event notifications in value-adding networks
+author:
+  - Patrick Hochstenbach
+  - Herbert Van de Sompel
+  - Miel Vander Sande
+  - Ruben Dedecker
+  - Ruben Verborgh
+year: 2022
+publication: LINKING THEORY AND PRACTICE OF DIGITAL LIBRARIES (TPDL 2022)
+doi: 10.1007/978-3-031-16802-4_11
+abstract: >
+  Linkages between research outputs are crucial in the scholarly knowledge graph. 
+  They include online citations, but also links between versions that differ according 
+  to various dimensions and links to resources that were used to arrive at research 
+  results. In current scholarly communication systems this information is only made 
+  available post factum and is obtained via elaborate batch processing. In this paper 
+  we report on work aimed at making linkages available in real-time, in which an 
+  alternative, decentralised scholarly communication network is considered that consists 
+  of interacting data nodes that host artifacts and service nodes that add value to 
+  artifacts. The first result of this work, the "Event Notifications in Value-Adding Networks" 
+  specification, details interoperability requirements for the exchange of real-time 
+  life-cycle information pertaining to artifacts using Linked Data Notifications. 
+  In an experiment, we applied our specification to one particular use-case: distributing 
+  Scholix data-literature links to a network of Belgian institutional repositories by a 
+  national service node. The results of our experiment confirm the potential of our 
+  approach and provide a framework to create a network of interacting nodes implementing 
+  the core scholarly functions (registration, certification, awareness and archiving) 
+  in a decentralized and decoupled way.
+files:
+  - https://biblio.ugent.be/publication/8762613/file/8762616.pdf
+...

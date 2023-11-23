@@ -37,7 +37,7 @@ async function doit() {
         fs.writeFileSync(`${path}/index.md`,markdown);
 
         // Make RDF
-        fs.writeFileSync(`${path}/index.md.meta`,await makeRDF());
+        fs.writeFileSync(`${path}/.meta`,await makeRDF());
 
         // Make inbox
         fs.mkdirSync(`${path}/inbox`, {recursive: true});
@@ -53,7 +53,7 @@ async function makeRDF() {
     const writer = new N3.Writer();
     return new Promise( (resolve,reject) => {
         const base = `${options.baseUrl}/${scenario['$']}`;
-        const subject = namedNode(`${base}/index.md`);
+        const subject = namedNode(`${base}/`);
         const DC = 'http://purl.org/dc/elements/1.1/';
         const RDF = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
         const LDP = 'http://www.w3.org/ns/ldp#';

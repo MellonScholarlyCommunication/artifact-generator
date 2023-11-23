@@ -37,7 +37,7 @@ async function doit() {
         fs.mkdirSync(`${path}/inbox`, {recursive: true});
 
         // Make meta
-        fs.writeFileSync(`${path}/.meta`,makeMeta());
+        fs.writeFileSync(`${path}/index.md.meta`,makeMeta());
 
         console.error(`> ${path}/index.md`);
     }
@@ -48,7 +48,7 @@ async function doit() {
 
 function makeMeta() {
     return `
-<${options.baseUrl}/${scenario['$']}> <http://www.w3.org/ns/ldp#inbox> <${options.baseUrl}/${scenario['$']}/inbox/> .
+<${options.baseUrl}/${scenario['$']}/index.md> <http://www.w3.org/ns/ldp#inbox> <${options.baseUrl}/${scenario['$']}/inbox/> .
 `.trim();
 }
 

@@ -8,6 +8,7 @@
   "license": "MIT",
   "dependencies": {
     "commander": "^11.1.0",
+    "n3": "^1.17.2",
     "yaml": "^2.3.4"
   }
 }

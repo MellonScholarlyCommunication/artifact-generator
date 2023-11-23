@@ -1,6 +1,9 @@
 const commander = require('commander');
 const YAML = require('yaml');
 const fs = require('fs');
+const N3 = require('n3');
+const { DataFactory } = N3;
+const { namedNode, literal, defaultGraph, quad } = DataFactory;
 
 commander
     .version('1.0.0','-v, --version')
@@ -33,6 +36,9 @@ async function doit() {
 
         fs.writeFileSync(`${path}/index.md`,markdown);
 
+        // Make RDF
+        fs.writeFileSync(`${path}/index.ttl`,await makeRDF());
+
         // Make inbox
         fs.mkdirSync(`${path}/inbox`, {recursive: true});
 
@@ -42,14 +48,124 @@ async function doit() {
         console.error(`> ${path}/index.md`);
     }
     else {
-        console.log(output);
+        console.log(markdown);
     }
 }
 
 function makeMeta() {
     return `
 <${options.baseUrl}/${scenario['$']}/index.md> <http://www.w3.org/ns/ldp#inbox> <${options.baseUrl}/${scenario['$']}/inbox/> .
+<${options.baseUrl}/${scenario['$']}/index.md> <http://www.openarchives.org/ore/terms/#isDescribedBy> <${options.baseUrl}/${scenario['$']}/index.ttl> .
 `.trim();
+}
+
+async function makeRDF() {
+    const writer = new N3.Writer();
+    return new Promise( (resolve,reject) => {
+        const subject = namedNode(`${options.baseUrl}/${scenario['$']}/index.md`);
+        const DC = 'http://purl.org/dc/elements/1.1/';
+        const RDF = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
+
+        writer.addQuad(
+            subject,
+            namedNode(`${RDF}type`), 
+            namedNode(`${DC}Text`) 
+        );
+
+        if (scenario['title']) {
+            writer.addQuad(
+                subject,
+                namedNode(`${DC}title`), 
+                literal(scenario['title']) 
+            );
+        }
+
+        if (scenario['author']) {
+            for (let i = 0 ; i < scenario['author'].length ; i++) {
+                let author = scenario['author'][i];
+                let url = lookup[author] || '';
+
+                if (url) {
+                    writer.addQuad(
+                        subject,
+                        namedNode(`${DC}creator`), 
+                        namedNode(url) 
+                    ); 
+                }
+                else {
+                    writer.addQuad(
+                        subject,
+                        namedNode(`${DC}creator`), 
+                        literal(author) 
+                    );    
+                }
+            }
+        }
+
+        if (scenario['year']) {
+            writer.addQuad(
+                subject,
+                namedNode(`${DC}date`), 
+                literal(scenario['year']) 
+            );
+        }
+
+        if (scenario['publication']) {
+            let publication = scenario['publication'];
+            let url = lookup[publication] || '';
+    
+            if (url) {
+                writer.addQuad(
+                    subject,
+                    namedNode(`${DC}isPartOf`), 
+                    namedNode(url) 
+                );
+            }
+            else {
+                writer.addQuad(
+                    subject,
+                    namedNode(`${DC}isPartOf`), 
+                    literal(publication) 
+                ); 
+            }
+        }
+
+        if (scenario['doi']) {
+            let doi = scenario['doi'];
+    
+            writer.addQuad(
+                subject,
+                namedNode(`${DC}isVersionOf`), 
+                namedNode(`http://doi.org/${doi}`) 
+            ); 
+        }
+
+        if (scenario['abstract']) {
+            writer.addQuad(
+                subject,
+                namedNode(`${DC}abstract`), 
+                literal(scenario['abstract']) 
+            ); 
+        }
+
+        if (scenario['files']) {
+            for (let i = 0 ; i < scenario['files'].length ; i++) {
+                let file = scenario['files'][i];
+
+                writer.addQuad(
+                    subject,
+                    namedNode(`${DC}hasPart`), 
+                    namedNode(file) 
+                ); 
+            }
+        }
+      
+        writer.end((error, result) => {
+            if (error)
+                reject(error);
+            resolve(result);
+        });
+    });
 }
 
 function makeMarkdown() {

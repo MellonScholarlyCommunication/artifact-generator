@@ -37,13 +37,10 @@ async function doit() {
         fs.writeFileSync(`${path}/index.md`,markdown);
 
         // Make RDF
-        fs.writeFileSync(`${path}/index.ttl`,await makeRDF());
+        fs.writeFileSync(`${path}/index.md.meta`,await makeRDF());
 
         // Make inbox
         fs.mkdirSync(`${path}/inbox`, {recursive: true});
-
-        // Make meta
-        fs.writeFileSync(`${path}/index.md.meta`,makeMeta());
 
         console.error(`> ${path}/index.md`);
     }
@@ -52,24 +49,25 @@ async function doit() {
     }
 }
 
-function makeMeta() {
-    return `
-<${options.baseUrl}/${scenario['$']}/index.md> <http://www.w3.org/ns/ldp#inbox> <${options.baseUrl}/${scenario['$']}/inbox/> .
-<${options.baseUrl}/${scenario['$']}/index.md> <http://www.openarchives.org/ore/terms/#isDescribedBy> <${options.baseUrl}/${scenario['$']}/index.ttl> .
-`.trim();
-}
-
 async function makeRDF() {
     const writer = new N3.Writer();
     return new Promise( (resolve,reject) => {
-        const subject = namedNode(`${options.baseUrl}/${scenario['$']}/index.md`);
+        const base = `${options.baseUrl}/${scenario['$']}`;
+        const subject = namedNode(`${base}/index.md`);
         const DC = 'http://purl.org/dc/elements/1.1/';
         const RDF = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
+        const LDP = 'http://www.w3.org/ns/ldp#';
 
         writer.addQuad(
             subject,
             namedNode(`${RDF}type`), 
             namedNode(`${DC}Text`) 
+        );
+
+        writer.addQuad(
+            subject,
+            namedNode(`${LDP}inbox`), 
+            namedNode(`${base}/inbox/`) 
         );
 
         if (scenario['title']) {

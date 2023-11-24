@@ -57,6 +57,7 @@ async function makeRDF() {
         const DC = 'http://purl.org/dc/elements/1.1/';
         const RDF = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
         const LDP = 'http://www.w3.org/ns/ldp#';
+        const IETF = 'http://www.iana.org/assignments/relation/';
 
         writer.addQuad(
             subject,
@@ -133,7 +134,7 @@ async function makeRDF() {
     
             writer.addQuad(
                 subject,
-                namedNode(`${DC}isVersionOf`), 
+                namedNode(`${IETF}cite-as`), 
                 namedNode(`http://doi.org/${doi}`) 
             ); 
         }

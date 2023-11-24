@@ -58,11 +58,18 @@ async function makeRDF() {
         const RDF = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
         const LDP = 'http://www.w3.org/ns/ldp#';
         const IETF = 'http://www.iana.org/assignments/relation/';
+        const SCHEMA = 'https://schema.org/';
 
         writer.addQuad(
             subject,
             namedNode(`${RDF}type`), 
-            namedNode(`${DC}Text`) 
+            namedNode(`${SCHEMA}ScholarlyArticle`) 
+        );
+
+        writer.addQuad(
+            subject,
+            namedNode(`${RDF}type`), 
+            namedNode(`${SCHEMA}AboutPage`) 
         );
 
         writer.addQuad(

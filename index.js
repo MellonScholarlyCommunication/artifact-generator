@@ -256,5 +256,10 @@ function makeMarkdown() {
         output += "_no files_\n";
     }
 
+    output += `
+## DEMO
+
+- [LDN Inbox](inbox) : a demonstration public readable inbox for this artifact.
+`
     return output;
 }

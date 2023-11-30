@@ -74,10 +74,10 @@ async function makeRDF() {
         );
 
         let ldesUrl = 
-            options.baseUrl.replace(/\/[^\/]+\/$/,'/') + 
+            options.baseUrl.replace(/\/[^\/]+$/,'/') + 
             base.replace(options.baseUrl,'').replace(/^\//,'') +
             '.jsonld#EventStream';
-            
+
         writer.addQuad(
             subject,
             namedNode(`${LDES}EventStream`),

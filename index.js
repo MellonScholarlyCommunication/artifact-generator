@@ -259,7 +259,7 @@ function makeMarkdown() {
     output += `
 ## DEMO
 
-- [LDN Inbox](inbox) : a demonstration public readable inbox for this artifact.
+- [LDN Inbox](inbox/) : a demonstration public readable inbox for this artifact.
 `
     return output;
 }

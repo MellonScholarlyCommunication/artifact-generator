@@ -74,7 +74,7 @@ async function makeRDF() {
         );
 
         let ldesUrl = 
-            options.baseUrl.replace(/\/[^\/]+$/,'/') + 
+            options.baseUrl + '/' + 
             base.replace(options.baseUrl,'').replace(/^\//,'') +
             '.jsonld#EventStream';
 

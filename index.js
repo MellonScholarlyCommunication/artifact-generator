@@ -256,10 +256,9 @@ function makeMarkdown() {
         output += "_no files_\n";
     }
 
-    output += `
-## DEMO
+    if (scenario['extra']) {
+        output += `\n${scenario['extra']}`
+    }
 
-- [LDN Inbox](inbox/) : a demonstration public readable inbox for this artifact.
-`
     return output;
 }

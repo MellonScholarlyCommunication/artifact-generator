@@ -256,7 +256,7 @@ function makeMarkdown() {
 
         let id = scenario['cite-as'];
 
-        output += `[${id}](id)\n`;
+        output += `[${id}](${id})\n`;
     }
 
     output += "\n## ABSTRACT\n\n";

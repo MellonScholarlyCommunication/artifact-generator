@@ -149,7 +149,7 @@ async function makeRDF() {
             writer.addQuad(
                 subject,
                 namedNode(`${IETF}cite-as`), 
-                namedNode(`doi`) 
+                namedNode(`${id}`) 
             ); 
         }
 

@@ -73,15 +73,10 @@ async function makeRDF() {
             namedNode(`${SCHEMA}AboutPage`) 
         );
 
-        let ldesUrl = 
-            options.baseUrl + '/' + 
-            base.replace(options.baseUrl,'').replace(/^\//,'') +
-            '.jsonld#EventStream';
-
         writer.addQuad(
             subject,
             namedNode(`${LDES}EventStream`),
-            namedNode(ldesUrl)
+            namedNode(`${base}/eventlog.jsonld#EventStream`)
         )
 
         writer.addQuad(

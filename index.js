@@ -148,13 +148,23 @@ async function makeRDF() {
             }
         }
 
-        if (scenario['doi']) {
-            let doi = scenario['doi'];
+        if (scenario['cite-as']) {
+            let id = scenario['cite-as'];
     
             writer.addQuad(
                 subject,
                 namedNode(`${IETF}cite-as`), 
-                namedNode(`http://doi.org/${doi}`) 
+                namedNode(`doi`) 
+            ); 
+        }
+
+        if (scenario['doi']) {
+            let id = scenario['doi'];
+    
+            writer.addQuad(
+                subject,
+                namedNode(`${DC}hasVersion`), 
+                namedNode(`http://doi.org/${id}`) 
             ); 
         }
 
@@ -215,36 +225,38 @@ function makeMarkdown() {
         output += "\n";
     }
 
-    output += "\n## Year\n\n";
-
     if (scenario['year']) {
+        output += "\n## YEAR\n\n";
         output += scenario['year'] + "\n";
     }
-    else {
-        ouput += "_no year_\n";
-    }
-
-    output += "\n## Publication\n\n";
 
     if (scenario['publication']) {
+        output += "\n## PUBLICATION\n\n";
         let publication = scenario['publication'];
         let url = lookup[publication] || '';
 
-        output += `[${publication}](${url})\n`;
+        if (url.match(/^http.*/)) {
+            output += `[${publication}](${url})\n`;
+        }
+        else {
+            output += `${publication}\n`;
+        }
     }
-    else {
-        output += "_no publication_\n";
-    }
-
-    output += "\n## DOI\n\n";
 
     if (scenario['doi']) {
+        output += "\n## RELATED\n\n";
+
         let doi = scenario['doi'];
 
         output += `[${doi}](http://doi.org/${doi})\n`;
     }
-    else {
-        output += "_no doi_\n";
+
+    if (scenario['cite-as']) {
+        output += "\n## CITE-AS\n\n";
+
+        let id = scenario['cite-as'];
+
+        output += `[${id}](id)\n`;
     }
 
     output += "\n## ABSTRACT\n\n";

@@ -158,7 +158,7 @@ async function makeRDF() {
     
             writer.addQuad(
                 subject,
-                namedNode(`${DC}hasVersion`), 
+                namedNode(`${SCHEMA}isRelatedTo`), 
                 namedNode(`http://doi.org/${id}`) 
             ); 
         }
